@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h2 style="text-align: center;">Bubble App</h2>
+    <div style="text-align:center;">
+
+        <canvas id="myCanvas1" width="500" height="200" style="border:1px solid #000000;"></canvas>
+
+        <div id="1" style="text-align:center;">
+
+            <button id="hitButton">Hit</button>
+            <button id="resetButton">Reset</button>
+
+        </div>
+    </div>
+
+
+
+    <h2 style="text-align: center;">Bubble App</h2>
+
+
+    <div style="text-align:center;">
+        <canvas id="myCanvas2" width="500" height="200" style="border:1px solid #000000;"></canvas>
+        <br>
+        <div id="2" style="text-align: center;">
+            <button id="hButton">Hit</button>
+            <button id="rButton">Reset</button>
+        </div>
+    </div>
+
+    <script>
+
+        // get canvas element
+        var canvas = document.getElementById("myCanvas1");
+
+        // set canvas dimensions
+        canvas.width = 400;
+        canvas.height = 200;
+
+
+        // get canvas context
+        var ctx = canvas.getContext("2d");
+
+        // draw a circle on the left side of the canvas
+        var circleX = 50;
+        var circleY = 50;
+        var circleRadius = 45;
+        var circleColor = getRandomColor();
+        drawCircle(circleX, circleY, circleRadius, circleColor);
+
+        // draw an arrow corresponding to the circle on the right side of the canvas
+        var arrowX = canvas.width - circleX;
+        var arrowY = circleY;
+        drawArrow(arrowX, arrowY);
+
+
+
+        // function to draw the circle
+        function drawCircle(x, y, radius, color) {
+            ctx.beginPath();
+            ctx.arc(x, y, radius, 0, 2 * Math.PI);
+            ctx.fillStyle = color;
+            ctx.fill();
+        }
+
+        //arrow head
+        function drawArrow(x, y) {
+            var headlen = 10;
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(x - circleRadius, y);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(x - circleRadius, y);
+            ctx.lineTo(x - circleRadius + 5, y - 5);
+            ctx.moveTo(x - circleRadius, y);
+            ctx.lineTo(x - circleRadius + 5, y + 5);
+            ctx.stroke();
+        }
+
+        // function to get a random color
+        function getRandomColor() {
+            var letters = "0123456789ABCDEF";
+            var color = "#";
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+
+
+    </script>
+
+
+    <script>
+
+        // get canvas element
+        var canvas = document.getElementById("myCanvas2");
+
+        // set canvas dimensions
+        canvas.width = 400;
+        canvas.height = 200;
+
+
+        // get canvas context
+        var ctx = canvas.getContext("2d");
+
+        // draw a circle on the left side of the canvas
+        var circleX = 50;
+        var circleY = 50;
+        //developer ASd
+        var circleRadius = 45;
+        var circleColor = getRandomColor();
+        drawCircle(circleX, circleY, circleRadius, circleColor);
+
+        // draw an arrow corresponding to the circle on the right side of the canvas
+        var arrowX = canvas.width - circleX;
+        var arrowY = circleY;
+        drawArrow(arrowX, arrowY);
+
+        // get hit button
+        var hitButton = document.getElementById("hButton");
+
+        // function to move the arrow and change color of the circle when hit button is clicked
+        hitButton.onclick = function () {
+            // animate arrow moving towards the circle
+            var animationId = requestAnimationFrame(moveArrow);
+
+            function moveArrow() {
+                if (arrowX > circleX) {
+                    arrowX -= 5;
+                    drawArrow(arrowX, arrowY);
+                    animationId = requestAnimationFrame(moveArrow);
+                    ctx.restore();
+                } else {
+                    cancelAnimationFrame(animationId);
+                    // change color of the circle
+                    circleColor = getRandomColor();
+                    drawCircle(circleX, circleY, circleRadius, circleColor);
+                    ctx.restore();
+                }
+            }
+        };
+
+        // get reset button
+        var resetButton = document.getElementById("rButton");
+
+        // function to reset the application to its initial state when reset button is clicked
+        resetButton.onclick = function () {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            circleColor = getRandomColor();
+            drawCircle(circleX, circleY, circleRadius, circleColor);
+            arrowX = canvas.width - circleX;
+            drawArrow(arrowX, arrowY);
+        };
+
+        // function to draw the circle
+        function drawCircle(x, y, radius, color) {
+            ctx.beginPath();
+            ctx.arc(x, y, radius, 0, 2 * Math.PI);
+            ctx.fillStyle = color;
+            ctx.fill();
+        }
+
+        //arrow head
+        function drawArrow(x, y) {
+            var headlen = 10;
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(x - circleRadius, y);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(x - circleRadius, y);
+            ctx.lineTo(x - circleRadius + 5, y - 5);
+            ctx.moveTo(x - circleRadius, y);
+            ctx.lineTo(x - circleRadius + 5, y + 5);
+            ctx.stroke();
+        }
+
+        // function to get a random color
+        function getRandomColor() {
+            var letters = "0123456789ABCDEF";
+            var color = "#";
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+
+
+    </script>
+
+</body>
+
+</html
